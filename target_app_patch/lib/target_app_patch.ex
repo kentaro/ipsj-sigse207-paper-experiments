@@ -13,6 +13,6 @@ defmodule TargetAppPatch do
 
   """
   def hello do
-    :world
+    :patched
   end
 end

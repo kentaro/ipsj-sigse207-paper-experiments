@@ -18,7 +18,7 @@ config :nerves, :firmware, rootfs_overlay: "rootfs_overlay"
 # Set the SOURCE_DATE_EPOCH date for reproducible builds.
 # See https://reproducible-builds.org/docs/source-date-epoch/ for more information
 
-config :nerves, source_date_epoch: "1609341166"
+config :nerves, source_date_epoch: "1609341452"
 
 # Use Ringlogger as the logger backend and remove :console.
 # See https://hexdocs.pm/ring_logger/readme.html for more information on
@@ -31,3 +31,7 @@ if Mix.target() == :host or Mix.target() == :"" do
 else
   import_config "target.exs"
 end
+
+config :nerves, :firmware,
+  rootfs_overlay: "rootfs_overlay",
+  mksquashfs_flags: ["-noI", "-noId", "-noD", "-noF", "-noX"]
