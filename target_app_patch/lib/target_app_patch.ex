@@ -1,6 +1,6 @@
-defmodule TargetApp do
+defmodule TargetAppPatch do
   @moduledoc """
-  Documentation for TargetApp.
+  Documentation for TargetAppPatch.
   """
 
   @doc """
@@ -8,7 +8,7 @@ defmodule TargetApp do
 
   ## Examples
 
-      iex> TargetApp.hello
+      iex> TargetAppPatch.hello
       :world
 
   """
