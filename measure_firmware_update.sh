@@ -1,7 +1,5 @@
 #!/bin/sh
 
-set -u
-
 BUILD_METHOD=$1
 
 if [ -z "$BUILD_METHOD" ]
@@ -9,6 +7,8 @@ then
   echo "usage: $0 [firmware | firmware.patch]"
   exit 1
 fi
+
+set -u
 
 IP_ADDRESS=$(ping -c 1 nerves.local | grep 'PING nerves.local' | perl -nle 's/^.+\((\d+\.\d+\.\d+\.\d+)\).+$/$1/; print')
 echo "nerves.local is at $IP_ADDRESS"
@@ -36,13 +36,19 @@ echo "======================================"
 echo ""
 
 START_TIME=$(gdate +"%s.%3N")
+
+# 再起動に入るまでしばらく時間がかかる。
+# その間はpingは通るので、通らなくなるまでpingし続ける。
 ping -c 1 -t 1 "$IP_ADDRESS" > /dev/null
 
-while [ $? -ne 2 ]
+# pingが通らなくなったら終了ステータスが2になる
+while [ $? -ne 2 ] 
 do
   ping -c 1 -t 1 -i 0.1 "$IP_ADDRESS" > /dev/null
 done
 
+# pingが通らなくなったら再起動中ということなので、
+# あらためてタイムアウトを長く設定してpingする
 ping -c 1 -t 100 "$IP_ADDRESS" > /dev/null
 
 END_TIME=$(gdate +"%s.%3N")
