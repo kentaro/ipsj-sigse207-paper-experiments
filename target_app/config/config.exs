@@ -31,3 +31,10 @@ if Mix.target() == :host or Mix.target() == :"" do
 else
   import_config "target.exs"
 end
+
+config :mix_tasks_upload_hotswap,
+  app_name: :target_app,
+  nodes: [:"hot_upload_test@nerves.local"],
+  cookie: :"secret token shared between nodes"
+
+config :target_app, env: Mix.env()

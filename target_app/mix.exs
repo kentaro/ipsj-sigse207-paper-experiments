@@ -49,7 +49,9 @@ defmodule TargetApp.MixProject do
       {:nerves_system_rpi4, "~> 1.13", runtime: false, targets: :rpi4},
       {:nerves_system_bbb, "~> 2.8", runtime: false, targets: :bbb},
       {:nerves_system_osd32mp1, "~> 0.4", runtime: false, targets: :osd32mp1},
-      {:nerves_system_x86_64, "~> 1.13", runtime: false, targets: :x86_64}
+      {:nerves_system_x86_64, "~> 1.13", runtime: false, targets: :x86_64},
+
+      {:mix_tasks_upload_hotswap, "~> 0.1.0", only: :dev}
     ]
   end
 

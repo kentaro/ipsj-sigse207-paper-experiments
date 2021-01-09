@@ -30,6 +30,13 @@ defmodule TargetApp.Application do
   end
 
   def children(_target) do
+    # Start a node through which local code changes are deployed
+    # only when the device is running in the develop environment
+    if Application.get_env(:target_app, :env) == :dev do
+      System.cmd("epmd", ["-daemon"])
+      Node.start(:"hot_upload_test@nerves.local")
+      Node.set_cookie(Application.get_env(:mix_tasks_upload_hotswap, :cookie))
+    end
     [
       # Children for all targets except host
       # Starts a worker by calling: TargetApp.Worker.start_link(arg)
