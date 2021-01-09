@@ -13,6 +13,6 @@ defmodule TargetApp do
 
   """
   def hello do
-    :world
+    :"mix upload.hotswap"
   end
 end
