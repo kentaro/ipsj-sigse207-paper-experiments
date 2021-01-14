@@ -4,7 +4,7 @@ BUILD_METHOD=$1
 
 if [ -z "$BUILD_METHOD" ]
 then
-  echo "usage: $0 [firmware | firmware.patch]"
+  echo "usage: $0 [firmware | firmware.patch | upload.hotswap]"
   exit 1
 fi
 
@@ -14,20 +14,27 @@ IP_ADDRESS=$(ping -c 1 nerves.local | grep 'PING nerves.local' | perl -nle 's/^.
 echo "nerves.local is at $IP_ADDRESS"
 echo ""
 
-echo "Time to build firmware (mix $BUILD_METHOD)"
-echo "======================================"
-
-time mix "$BUILD_METHOD" > /dev/null
-echo ""
-
-echo "Time to upload firmware"
-echo "======================================"
-
-if [ "$BUILD_METHOD" = "firmware" ]
+if [ "$BUILD_METHOD" = "firmware" -o "$BUILD_METHOD" = "firmware.patch" ]
 then
-  time mix upload > /dev/null
+  echo "Time to build firmware (mix $BUILD_METHOD)"
+  echo "======================================"
+
+  time mix "$BUILD_METHOD" > /dev/null
+  echo ""
+
+  echo "Time to upload firmware"
+  echo "======================================"
+
+  if [ "$BUILD_METHOD" = "firmware" ]
+  then
+    time mix upload > /dev/null
+  else
+    time mix upload --firmware _build/rpi3_dev/nerves/images/patch.fw > /dev/null
+  fi
 else
-  time mix upload --firmware _build/rpi3_dev/nerves/images/patch.fw > /dev/null
+  echo "Time to hotswap (mix upload.hotswap)"
+  echo "======================================"
+  time mix upload.hotswap > /dev/null
 fi
 echo ""
 
