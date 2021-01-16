@@ -41,6 +41,8 @@ defmodule TargetApp.Application do
       # Children for all targets except host
       # Starts a worker by calling: TargetApp.Worker.start_link(arg)
       # {TargetApp.Worker, arg},
+      {Task.Supervisor, name: TargetApp.EchoServer.TaskSupervisor},
+      Supervisor.child_spec({Task, fn -> TargetApp.EchoServer.accept(9849) end}, restart: :permanent)
     ]
   end
 
