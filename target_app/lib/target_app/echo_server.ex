@@ -36,6 +36,6 @@ defmodule TargetApp.EchoServer do
   end
 
   defp write_line(line, socket) do
-    :gen_tcp.send(socket, "aaa: "<>line)
+    :gen_tcp.send(socket, "method2-3: "<>line)
   end
 end

@@ -31,7 +31,7 @@ defmodule TargetApp.MixProject do
   defp deps do
     [
       # Dependencies for all targets
-      {:nerves, github: "nerves-project/nerves", runtime: false, override: true},
+      {:nerves, "~> 1.7.2", runtime: false},
       {:shoehorn, "~> 0.7.0"},
       {:ring_logger, "~> 0.8.1"},
       {:toolshed, "~> 0.2.13"},
@@ -51,7 +51,7 @@ defmodule TargetApp.MixProject do
       {:nerves_system_osd32mp1, "~> 0.4", runtime: false, targets: :osd32mp1},
       {:nerves_system_x86_64, "~> 1.13", runtime: false, targets: :x86_64},
 
-      {:mix_tasks_upload_hotswap, "~> 0.1.0", only: :dev}
+      {:mix_tasks_upload_hotswap, github: "kentaro/mix_tasks_upload_hotswap", only: :dev}
     ]
   end
 
