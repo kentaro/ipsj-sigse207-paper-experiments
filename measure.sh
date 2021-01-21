@@ -81,10 +81,8 @@ echo ""
 START_TIME=$(gdate +"%s.%3N")
 TIMEOUT_COUNT=0
 
-# 再起動に入るまでしばらく時間がかかる。
-# その間はpingは通るので、通らなくなるまでpingし続ける。
+# acceptされるまで短い期間で接続を試み続ける
 ncat -z -w 1ms "$IP_ADDRESS" "$PORT" > /dev/null
-
 while [ $? -ne 0 ] 
 do
   TIMEOUT_COUNT=$(( TIMEOUT_COUNT + 1 ))
