@@ -79,8 +79,19 @@ echo "======================================"
 echo ""
 
 START_TIME=$(gdate +"%s.%3N")
-../touchcon "$IP_ADDRESS" "$PORT"
+TIMEOUT_COUNT=0
+
+# 再起動に入るまでしばらく時間がかかる。
+# その間はpingは通るので、通らなくなるまでpingし続ける。
+ncat -z -w 1ms "$IP_ADDRESS" "$PORT" > /dev/null
+
+while [ $? -ne 0 ] 
+do
+  TIMEOUT_COUNT=$(( TIMEOUT_COUNT + 1 ))
+  ncat -z -w 1ms "$IP_ADDRESS" "$PORT" > /dev/null
+done
+
 END_TIME=$(gdate +"%s.%3N")
 DURATION=$(echo "scale=1; $END_TIME - $START_TIME" | bc)
-echo "time: $DURATION sec."
+echo "time: $DURATION sec. (timeout: $TIMEOUT_COUNT)"
 echo ""
